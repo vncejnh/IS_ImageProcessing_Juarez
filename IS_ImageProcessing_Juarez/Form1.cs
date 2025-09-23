@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebCamLib;
+using AForge.Video;
+using AForge.Video.DirectShow;
 
 namespace IS_ImageProcessing_Juarez
 {
@@ -15,8 +17,8 @@ namespace IS_ImageProcessing_Juarez
     public partial class Form1 : Form
     {
         Bitmap imageA, imageB, colorgreen, resultImage;
-        Device[] devices;
-        Device device;
+        private FilterInfoCollection videoDevices;
+        private VideoCaptureDevice videoSource;
         public Form1()
         {
 
@@ -230,29 +232,40 @@ namespace IS_ImageProcessing_Juarez
 
         private void openWebcamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            devices = DeviceManager.GetAllDevices();
-
-            if (devices.Length > 0)
-            {
-                picBox1.CreateControl();
-                device = devices[0];
-                device.ShowWindow(picBox3);
-            }
-            else
+            FilterInfoCollection videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            if (videoDevices.Count == 0)
             {
                 MessageBox.Show("No webcam found!");
+                return;
             }
+            VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.NewFrame += (s, ev) =>
+            {
+                Bitmap frame = (Bitmap)ev.Frame.Clone();
+                picBox1.Invoke(new Action(() =>
+                {
+                    if (picBox1.Image != null)
+                        picBox1.Image.Dispose();
+
+                    picBox1.Image = frame;
+                }));
+            };
+            videoSource.Start();
+            this.FormClosing += (s, ev) =>
+            {
+                if (videoSource.IsRunning)
+                {
+                    videoSource.SignalToStop();
+                    videoSource.WaitForStop();
+                }
+            };
         }
 
         private void closeWebcamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (device != null)
-            {
-                device.Stop();
-                device = null;
-                picBox1.Image = null;
-            }
+            VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.SignalToStop();
+            videoSource.WaitForStop();
         }
 
         private void label3_Click(object sender, EventArgs e)
