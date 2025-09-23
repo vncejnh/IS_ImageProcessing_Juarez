@@ -19,6 +19,8 @@ namespace IS_ImageProcessing_Juarez
         Bitmap imageA, imageB, colorgreen, resultImage;
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
+        private enum FilterType { None, Greyscale, Sepia, Invert }
+        private FilterType currentFilter = FilterType.None;
         public Form1()
         {
 
@@ -36,7 +38,7 @@ namespace IS_ImageProcessing_Juarez
             {
                 imageB = new Bitmap(ofd.FileName);
                 picBox2.Image = imageB;
-                
+
             }
         }
 
@@ -48,7 +50,7 @@ namespace IS_ImageProcessing_Juarez
             int height = Math.Min(imageB.Height, imageB.Height);
             resultImage = new Bitmap(width, height);
 
-            Color colorgreen = imageA.GetPixel(50, imageA.Height / 2); 
+            Color colorgreen = imageA.GetPixel(50, imageA.Height / 2);
             int greygreen = (colorgreen.R + colorgreen.G + colorgreen.B) / 3;
             int threshold = 5;
 
@@ -83,6 +85,7 @@ namespace IS_ImageProcessing_Juarez
                 }
             }
             picBox3.Image = result;
+            currentFilter = FilterType.None;
 
             //if (imageA == null) return;
             //picBox3.Image = picBox1.Image;
@@ -133,6 +136,7 @@ namespace IS_ImageProcessing_Juarez
             }
             picBox3.Image = resultImage;
             picBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            currentFilter = FilterType.Greyscale;
         }
 
         private void colorInversionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -151,6 +155,7 @@ namespace IS_ImageProcessing_Juarez
                 }
             }
             picBox3.Image = resultImage;
+            currentFilter = FilterType.Invert;
         }
 
         private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
@@ -223,6 +228,7 @@ namespace IS_ImageProcessing_Juarez
             }
 
             picBox3.Image = resultImage;
+            currentFilter = FilterType.Sepia;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -232,25 +238,19 @@ namespace IS_ImageProcessing_Juarez
 
         private void openWebcamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FilterInfoCollection videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            // Get all cameras
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
             if (videoDevices.Count == 0)
             {
                 MessageBox.Show("No webcam found!");
                 return;
             }
-            VideoCaptureDevice videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
-            videoSource.NewFrame += (s, ev) =>
-            {
-                Bitmap frame = (Bitmap)ev.Frame.Clone();
-                picBox1.Invoke(new Action(() =>
-                {
-                    if (picBox1.Image != null)
-                        picBox1.Image.Dispose();
 
-                    picBox1.Image = frame;
-                }));
-            };
+            videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+            videoSource.NewFrame += new NewFrameEventHandler(VideoSource_NewFrame);
             videoSource.Start();
+
             this.FormClosing += (s, ev) =>
             {
                 if (videoSource.IsRunning)
@@ -276,7 +276,8 @@ namespace IS_ImageProcessing_Juarez
         private void upload_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() == DialogResult.OK) { 
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
                 imageA = new Bitmap(ofd.FileName);
                 picBox1.Image = imageA;
                 picBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -286,6 +287,12 @@ namespace IS_ImageProcessing_Juarez
         private void pictureBox3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void VideoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
+            picBox1.Image = frame;
         }
     }
 }
