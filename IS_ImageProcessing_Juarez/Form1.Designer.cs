@@ -38,6 +38,15 @@
             this.colorInversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sepiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.webcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWebcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeWebcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convolutionMatrixToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gaussianBlurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sharpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meanRemovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.embossToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadImage = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -45,9 +54,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.webcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openWebcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeWebcamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.laplascianToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allDirectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lossyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.horizontalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox1)).BeginInit();
@@ -84,7 +97,9 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.imageToolStripMenuItem,
-            this.webcamToolStripMenuItem});
+            this.webcamToolStripMenuItem,
+            this.convolutionMatrixToolStripMenuItem,
+            this.clearAllToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1119, 28);
@@ -106,37 +121,114 @@
             // basicCopyToolStripMenuItem
             // 
             this.basicCopyToolStripMenuItem.Name = "basicCopyToolStripMenuItem";
-            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.basicCopyToolStripMenuItem.Text = "Basic Copy";
             this.basicCopyToolStripMenuItem.Click += new System.EventHandler(this.basicCopyToolStripMenuItem_Click);
             // 
             // greyscaleToolStripMenuItem
             // 
             this.greyscaleToolStripMenuItem.Name = "greyscaleToolStripMenuItem";
-            this.greyscaleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.greyscaleToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.greyscaleToolStripMenuItem.Text = "Greyscale";
             this.greyscaleToolStripMenuItem.Click += new System.EventHandler(this.greyscaleToolStripMenuItem_Click);
             // 
             // colorInversionToolStripMenuItem
             // 
             this.colorInversionToolStripMenuItem.Name = "colorInversionToolStripMenuItem";
-            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.colorInversionToolStripMenuItem.Text = "Color Inversion";
             this.colorInversionToolStripMenuItem.Click += new System.EventHandler(this.colorInversionToolStripMenuItem_Click);
             // 
             // histogramToolStripMenuItem
             // 
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.histogramToolStripMenuItem.Text = "Histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
             // 
             // sepiaToolStripMenuItem
             // 
             this.sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
-            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.sepiaToolStripMenuItem.Text = "Sepia";
             this.sepiaToolStripMenuItem.Click += new System.EventHandler(this.sepiaToolStripMenuItem_Click);
+            // 
+            // webcamToolStripMenuItem
+            // 
+            this.webcamToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openWebcamToolStripMenuItem,
+            this.closeWebcamToolStripMenuItem});
+            this.webcamToolStripMenuItem.Name = "webcamToolStripMenuItem";
+            this.webcamToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.webcamToolStripMenuItem.Text = "Webcam";
+            // 
+            // openWebcamToolStripMenuItem
+            // 
+            this.openWebcamToolStripMenuItem.Name = "openWebcamToolStripMenuItem";
+            this.openWebcamToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.openWebcamToolStripMenuItem.Text = "Open Webcam";
+            this.openWebcamToolStripMenuItem.Click += new System.EventHandler(this.openWebcamToolStripMenuItem_Click);
+            // 
+            // closeWebcamToolStripMenuItem
+            // 
+            this.closeWebcamToolStripMenuItem.Name = "closeWebcamToolStripMenuItem";
+            this.closeWebcamToolStripMenuItem.Size = new System.Drawing.Size(190, 26);
+            this.closeWebcamToolStripMenuItem.Text = "Close Webcam";
+            this.closeWebcamToolStripMenuItem.Click += new System.EventHandler(this.closeWebcamToolStripMenuItem_Click);
+            // 
+            // convolutionMatrixToolStripMenuItem
+            // 
+            this.convolutionMatrixToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.smoothToolStripMenuItem,
+            this.gaussianBlurToolStripMenuItem,
+            this.sharpenToolStripMenuItem,
+            this.meanRemovalToolStripMenuItem,
+            this.embossToolStripMenuItem});
+            this.convolutionMatrixToolStripMenuItem.Name = "convolutionMatrixToolStripMenuItem";
+            this.convolutionMatrixToolStripMenuItem.Size = new System.Drawing.Size(149, 24);
+            this.convolutionMatrixToolStripMenuItem.Text = "Convolution Matrix";
+            // 
+            // smoothToolStripMenuItem
+            // 
+            this.smoothToolStripMenuItem.Name = "smoothToolStripMenuItem";
+            this.smoothToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.smoothToolStripMenuItem.Text = "Smooth";
+            this.smoothToolStripMenuItem.Click += new System.EventHandler(this.smoothToolStripMenuItem_Click);
+            // 
+            // gaussianBlurToolStripMenuItem
+            // 
+            this.gaussianBlurToolStripMenuItem.Name = "gaussianBlurToolStripMenuItem";
+            this.gaussianBlurToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.gaussianBlurToolStripMenuItem.Text = "Gaussian Blur";
+            this.gaussianBlurToolStripMenuItem.Click += new System.EventHandler(this.gaussianBlurToolStripMenuItem_Click);
+            // 
+            // sharpenToolStripMenuItem
+            // 
+            this.sharpenToolStripMenuItem.Name = "sharpenToolStripMenuItem";
+            this.sharpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sharpenToolStripMenuItem.Text = "Sharpen";
+            this.sharpenToolStripMenuItem.Click += new System.EventHandler(this.sharpenToolStripMenuItem_Click);
+            // 
+            // meanRemovalToolStripMenuItem
+            // 
+            this.meanRemovalToolStripMenuItem.Name = "meanRemovalToolStripMenuItem";
+            this.meanRemovalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.meanRemovalToolStripMenuItem.Text = "Mean Removal";
+            this.meanRemovalToolStripMenuItem.Click += new System.EventHandler(this.meanRemovalToolStripMenuItem_Click);
+            // 
+            // embossToolStripMenuItem
+            // 
+            this.embossToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.laplascianToolStripMenuItem,
+            this.horizontalVerticalToolStripMenuItem,
+            this.allDirectionsToolStripMenuItem,
+            this.lossyToolStripMenuItem,
+            this.horizontalToolStripMenuItem,
+            this.verticalToolStripMenuItem});
+            this.embossToolStripMenuItem.Name = "embossToolStripMenuItem";
+            this.embossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.embossToolStripMenuItem.Text = "Emboss";
+            this.embossToolStripMenuItem.Click += new System.EventHandler(this.embossToolStripMenuItem_Click);
             // 
             // uploadImage
             // 
@@ -210,28 +302,54 @@
             this.label3.Text = "If green screen, please add a background";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // webcamToolStripMenuItem
+            // laplascianToolStripMenuItem
             // 
-            this.webcamToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openWebcamToolStripMenuItem,
-            this.closeWebcamToolStripMenuItem});
-            this.webcamToolStripMenuItem.Name = "webcamToolStripMenuItem";
-            this.webcamToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.webcamToolStripMenuItem.Text = "Webcam";
+            this.laplascianToolStripMenuItem.Name = "laplascianToolStripMenuItem";
+            this.laplascianToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.laplascianToolStripMenuItem.Text = "Laplascian";
+            this.laplascianToolStripMenuItem.Click += new System.EventHandler(this.laplascianToolStripMenuItem_Click);
             // 
-            // openWebcamToolStripMenuItem
+            // horizontalVerticalToolStripMenuItem
             // 
-            this.openWebcamToolStripMenuItem.Name = "openWebcamToolStripMenuItem";
-            this.openWebcamToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.openWebcamToolStripMenuItem.Text = "Open Webcam";
-            this.openWebcamToolStripMenuItem.Click += new System.EventHandler(this.openWebcamToolStripMenuItem_Click);
+            this.horizontalVerticalToolStripMenuItem.Name = "horizontalVerticalToolStripMenuItem";
+            this.horizontalVerticalToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.horizontalVerticalToolStripMenuItem.Text = "Horizontal + Vertical";
+            this.horizontalVerticalToolStripMenuItem.Click += new System.EventHandler(this.horizontalVerticalToolStripMenuItem_Click);
             // 
-            // closeWebcamToolStripMenuItem
+            // allDirectionsToolStripMenuItem
             // 
-            this.closeWebcamToolStripMenuItem.Name = "closeWebcamToolStripMenuItem";
-            this.closeWebcamToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.closeWebcamToolStripMenuItem.Text = "Close Webcam";
-            this.closeWebcamToolStripMenuItem.Click += new System.EventHandler(this.closeWebcamToolStripMenuItem_Click);
+            this.allDirectionsToolStripMenuItem.Name = "allDirectionsToolStripMenuItem";
+            this.allDirectionsToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.allDirectionsToolStripMenuItem.Text = "All directions";
+            this.allDirectionsToolStripMenuItem.Click += new System.EventHandler(this.allDirectionsToolStripMenuItem_Click);
+            // 
+            // lossyToolStripMenuItem
+            // 
+            this.lossyToolStripMenuItem.Name = "lossyToolStripMenuItem";
+            this.lossyToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.lossyToolStripMenuItem.Text = "Lossy";
+            this.lossyToolStripMenuItem.Click += new System.EventHandler(this.lossyToolStripMenuItem_Click);
+            // 
+            // horizontalToolStripMenuItem
+            // 
+            this.horizontalToolStripMenuItem.Name = "horizontalToolStripMenuItem";
+            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.horizontalToolStripMenuItem.Text = "Horizontal";
+            this.horizontalToolStripMenuItem.Click += new System.EventHandler(this.horizontalToolStripMenuItem_Click);
+            // 
+            // verticalToolStripMenuItem
+            // 
+            this.verticalToolStripMenuItem.Name = "verticalToolStripMenuItem";
+            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(229, 26);
+            this.verticalToolStripMenuItem.Text = "Vertical";
+            this.verticalToolStripMenuItem.Click += new System.EventHandler(this.verticalToolStripMenuItem_Click);
+            // 
+            // clearAllToolStripMenuItem
+            // 
+            this.clearAllToolStripMenuItem.Name = "clearAllToolStripMenuItem";
+            this.clearAllToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
+            this.clearAllToolStripMenuItem.Text = "Clear All";
+            this.clearAllToolStripMenuItem.Click += new System.EventHandler(this.clearAllToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -284,6 +402,19 @@
         private System.Windows.Forms.ToolStripMenuItem webcamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openWebcamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeWebcamToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem convolutionMatrixToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem smoothToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gaussianBlurToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sharpenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem meanRemovalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem embossToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem laplascianToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem horizontalVerticalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allDirectionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lossyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem horizontalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verticalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearAllToolStripMenuItem;
     }
 }
 

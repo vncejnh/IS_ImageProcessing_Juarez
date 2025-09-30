@@ -294,5 +294,191 @@ namespace IS_ImageProcessing_Juarez
             Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
             picBox1.Image = frame;
         }
+
+        //MATRIX
+        private Bitmap ApplyConvolutionFilter(Bitmap source, double[,] kernel, double factor = 1.0, double offset = 0.0)
+        {
+            int width = source.Width;
+            int height = source.Height;
+            Bitmap result = new Bitmap(width, height);
+
+            for (int y = 1; y < height - 1; y++)
+            {
+                for (int x = 1; x < width - 1; x++)
+                {
+                    double r = 0.0, g = 0.0, b = 0.0;
+
+                    for (int ky = -1; ky <= 1; ky++)
+                    {
+                        for (int kx = -1; kx <= 1; kx++)
+                        {
+                            Color pixel = source.GetPixel(x + kx, y + ky);
+                            double kernelValue = kernel[ky + 1, kx + 1];
+
+                            r += pixel.R * kernelValue;
+                            g += pixel.G * kernelValue;
+                            b += pixel.B * kernelValue;
+                        }
+                    }
+
+                    int nr = Math.Min(Math.Max((int)(factor * r + offset), 0), 255);
+                    int ng = Math.Min(Math.Max((int)(factor * g + offset), 0), 255);
+                    int nb = Math.Min(Math.Max((int)(factor * b + offset), 0), 255);
+
+                    result.SetPixel(x, y, Color.FromArgb(nr, ng, nb));
+                }
+            }
+            return result;
+        }
+
+        private readonly double[,] SmoothKernel = {
+            { 1, 1, 1 },
+            { 1, 1, 1 },
+            { 1, 1, 1 }
+        };
+
+        private readonly double[,] GaussianBlurKernel = {
+            { 1, 2, 1 },
+            { 2, 4, 2 },
+            { 1, 2, 1 }
+        };
+
+        private readonly double[,] SharpenKernel = {
+            {  0, -2,  0 },
+            { -2, 11, -2 },
+            {  0, -2,  0 }
+        };
+
+        private readonly double[,] MeanRemovalKernel = {
+            { -1, -1, -1 },
+            { -1,  9, -1 },
+            { -1, -1, -1 }
+        };
+
+     
+        private readonly double[,] EmbossKernel = {
+            {  -1,  0,  -1 },
+            {   0,  4,   0 },
+            {  -1,  0, -11 }
+        };
+
+        
+        private readonly double[,] EmbossHVKernel = {
+            {  0, -1,  0 },
+            { -1,  4, -1 },
+            {  0, -1,  0 }
+        };
+
+       
+        private readonly double[,] EmbossAllKernel = {
+            { -1, -1, -1 },
+            { -1,  8, -1 },
+            { -1, -1, -1 }
+        };
+
+        
+        private readonly double[,] EmbossLossyKernel = {
+            {  1, -2,  1 },
+            { -2,  4, -2 },
+            { -2,  1, -2 }
+        };
+
+       
+        private readonly double[,] EmbossHorizontalKernel = {
+            {  0,  0,  0 },
+            { -1,  2, -1 },
+            {  0,  0,  0 }
+        };
+
+       
+        private readonly double[,] EmbossVerticalKernel = {
+            {  0, -1,  0 },
+            {  0,  0,  0 },
+            {  0,  1,  0 }
+        };
+
+
+        private void smoothToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, SmoothKernel, 1.0 / 9.0, 0.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void gaussianBlurToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, GaussianBlurKernel, 1.0 / 16.0, 0.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void sharpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, SharpenKernel, 1.0 / 3.0, 0.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void meanRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, MeanRemovalKernel, 1.0, 0.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void embossToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void allDirectionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossAllKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void laplascianToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossHVKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void clearAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            picBox1.Image = null;
+            picBox2.Image = null;
+            picBox3.Image = null;
+        }
+
+        private void lossyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossLossyKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void horizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossHorizontalKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
+        private void verticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageA == null) return;
+            resultImage = ApplyConvolutionFilter(imageA, EmbossVerticalKernel, 1.0, 128.0);
+            picBox3.Image = resultImage;
+        }
+
     }
 }
